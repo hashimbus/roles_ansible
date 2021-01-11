@@ -1,0 +1,4 @@
+---
+destin_file_s1: /usr/sbin/
+destin_file_s2: /etc/systemd/system/
+destin_file_n1: /etc/sysconfig/

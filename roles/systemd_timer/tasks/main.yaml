@@ -1,0 +1,37 @@
+---
+ - name: Upload service file
+   template: 
+     src: service.j2 
+     dest: /etc/systemd/system/{{ item.key }}.service
+     owner: root
+     group: root
+     mode: 0640
+   with_dict: "{{ psqlinsert }}"
+   notify: Reload systemd
+
+ - name: Upload timer file
+   template: 
+     src: timer.j2 
+     dest: /etc/systemd/system/{{ item.key }}.timer
+     owner: root
+     group: root
+     mode: 0640
+   with_dict: "{{ psqlinsert }}"
+   notify: Reload systemd
+
+ - name: Copy monitoring
+   template:
+     src: monitoring.j2
+     dest: /home/{{ item.value.user }}/monitoring.conf
+     owner: "{{ item.value.user }}"
+     group: "{{ item.value.user }}"
+   with_dict: "{{ psqlinsert }}"
+
+ - name: Enabling
+   systemd:
+           name: "{{ item.key }}.timer"
+           state: started
+           enabled: true
+           masked: false
+           daemon_reload: true
+   with_dict: "{{ psqlinsert }}"

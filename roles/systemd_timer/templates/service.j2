@@ -1,0 +1,14 @@
+[Unit]
+Description={{ item.key }} Service
+
+[Service]
+Type=oneshot
+ExecStart=/home/{{ item.value.user }}/{{ item.value.script }}
+User={{ item.value.user }}
+Group={{ item.value.group }}
+Environment=PGPASSFILE=/home/{{ item.value.user }}/monitoring.conf
+
+
+[Install]
+WantedBy=multi-user.target
+

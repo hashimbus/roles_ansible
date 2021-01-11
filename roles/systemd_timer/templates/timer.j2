@@ -1,0 +1,9 @@
+[Unit]
+Description=timer for {{ item.key }} Service
+
+[Timer]
+OnCalendar=*-*-* *:*:05
+
+[Install]
+WantedBy=multi-user.target
+

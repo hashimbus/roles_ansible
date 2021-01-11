@@ -1,0 +1,33 @@
+---
+- name: useradd
+  user:
+    name: node_exporter
+    shell: /sbin/nologin
+
+- name: copy node_exporter
+  copy: src=node_exporter dest={{ destin_file_s1 }} mode=0755
+
+- name: copy service
+  copy: src=node_exporter.service dest={{ destin_file_s2 }} owner=root group=root mode=0664
+
+- name: create cfg dir
+  file:
+      path: /etc/sysconfig
+      state: directory
+      owner: root
+      group: root
+      mode: '0755'
+
+- name: copy config
+  copy: src=node_exporter.cfg dest={{ destin_file_n1 }} owner=root group=root mode=0664
+
+
+- name: Just force systemd 
+  systemd:
+    daemon_reload: yes
+
+- name: Enable and start
+  systemd:
+    name: node_exporter.service
+    state: started
+    enabled: yes

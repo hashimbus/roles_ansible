@@ -1,0 +1,6 @@
+---
+psqlinsert:
+        psqlinsert:
+          user: user
+          group: group
+          script: script
